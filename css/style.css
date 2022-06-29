@@ -180,16 +180,24 @@ body {
 }
 
 .lista-todos-quizzes div {
+    width: 341px;
+    height: 181px;
+
+    display: flex;
+    justify-content: center;
+
     position: relative;
 
     margin-bottom: 12px;
+
+    background-image: linear-gradient(to bottom, transparent 62%, black 100%);
 }
 
 .lista-todos-quizzes img {
-    max-width: 340px;
-    height: 181px;
-
     border-radius: 5px;
+
+    width: 100%;
+    height: 100%; 
 }
 
 .lista-todos-quizzes p {
