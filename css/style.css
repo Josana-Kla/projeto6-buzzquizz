@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
 
 * {
-    font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
-    width: 100vw;
+    
 }
 
 body {
     background-color: #FAFAFA;
+    font-family: 'Roboto', sans-serif;
+    width: 100vw;
 }
 
 .header {
@@ -16,12 +17,64 @@ body {
     background-color: #EC362D;
     display: flex;
     align-items: center;
-    text-align: center;
+    justify-content: center;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.display-sem-quizz {
+    width: 1050px;
+    height: 180px;
+    border: 1px dashed #D4D4D4;
+    border-radius: 5px;
+    margin-top: 145px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ainda-nao-criou {
+    width: 250px;
+    height: 90px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.criar-quizz {
+    width: 150px;
+    height: 40px;
+    border: 1px dashed #EC362D;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.display-sem-quizz h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #B9B9B9;
+}
+
+.display-sem-quizz h3 {
+    font-size: 20px;
+    font-weight: 400;
+    color: #EC362D;
 }
 
 .header h1 {
-    font-family: 'Roboto', sans-serif;
     color: white;
     font-size: 37px;
     font-weight: bold;
