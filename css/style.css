@@ -2,13 +2,13 @@
 
 * {
     box-sizing: border-box;
-    
 }
 
 body {
     background-color: #FAFAFA;
     font-family: 'Roboto', sans-serif;
-    width: 100vw;
+
+    width: 100%;
 }
 
 .header {
@@ -28,7 +28,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .display-sem-quizz {
@@ -78,4 +77,107 @@ body {
     color: white;
     font-size: 37px;
     font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------*/
+
+
+.todos-quizzes {
+    max-width: 1050px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    margin-top: 60px;
+}
+
+.todos-quizzes h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.lista-todos-quizzes {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    margin-top: 12px;
+}
+
+.lista-todos-quizzes div {
+    position: relative;
+
+    margin-bottom: 12px;
+}
+
+.lista-todos-quizzes img {
+    max-width: 340px;
+    height: 181px;
+
+    border-radius: 5px;
+}
+
+.lista-todos-quizzes p {
+    margin: 0 21px 13px 18px;
+
+    font-size: 19px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*----------------- MOBILE -----------------*/
+
+@media (max-width: 1110px) {
+
+    .display-sem-quizz {
+        max-width: 340px;
+
+        margin: 145px 17px 0 17px;
+    }
+
+    .todos-quizzes {
+        margin: 45px 17px 0 17px;
+
+        max-width: 340px;
+    }
+
+    .lista-todos-quizzes {
+        flex-direction: column; 
+    }
+
+
 }
