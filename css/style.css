@@ -35,11 +35,34 @@ body {
     align-items: center;
 }
 
+.pag-criacao-perguntas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .titulo-instrucao {
     font-size: 23px;
     font-weight: bold;
     margin-top: 140px;
     margin-bottom: 30px;
+}
+
+.subtitulo-instrucao {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.caixa-perguntas {
+    width: 600px;
+    height: 825px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .caixa-especificacoes {
@@ -53,7 +76,7 @@ body {
     justify-content: space-evenly;
 }
 
-.caixa-especificacoes input {
+input {
     font-family: 'Roboto', sans-serif;
     font-size: 19px;
     width: 565px;
@@ -63,14 +86,18 @@ body {
     padding-left: 20px;
 }
 
-.caixa-especificacoes input:focus {
+input:focus {
     outline: none;
 }
 
-.caixa-especificacoes input::placeholder {
+input::placeholder {
     color: #BABABA;
     font-style: italic;
     font-weight: 400;
+}
+
+.caixa-perguntas input {
+    margin-top: 15px;
 }
 
 .botao {
