@@ -197,7 +197,7 @@ input::placeholder {
 
 
 .todos-quizzes {
-    max-width: 1050px;
+    width: 1050px;
 
     display: flex;
     flex-direction: column;
@@ -244,15 +244,15 @@ input::placeholder {
 }
 
 .lista-todos-quizzes p {
-    margin: 0 21px 13px 18px;
+    /*margin: 0 21px 13px 18px;*/
 
     font-size: 19px;
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
 
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 13px;
+    left: 18px;
 }
 
 
