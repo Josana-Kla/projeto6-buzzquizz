@@ -9,7 +9,7 @@ function criarQuizz () {
     <div class="pag-criacao-quizz">
             <h2 class="titulo-instrucao">Comece pelo começo</h2>
             <div class="caixa-especificacoes">
-                <input type="text" name="tituloQuizz" placeholder="Título do seu quizz">
+                <input type="text" name="tituloQuizz" maxlength="65" placeholder="Título do seu quizz">
                 <input type="text" name="URLQuizz" placeholder="URL da imagem do seu quizz">
                 <input type="text" name="qtdPerg" placeholder="Quantidade de perguntas do seu quizz">
                 <input type="text" name="qtdNiveis" placeholder="Quantidade de níveis do seu quizz">

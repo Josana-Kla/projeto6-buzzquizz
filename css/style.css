@@ -110,7 +110,7 @@ input::placeholder {
     align-items: center;
     justify-content: center;
     border-radius: 15px;
-    margin-top: 80px;
+    margin: 80px auto;
 }
 
 .display-sem-quizz {
@@ -253,6 +253,18 @@ input::placeholder {
 /*----------------- MOBILE -----------------*/
 
 @media (max-width: 1110px) {
+
+    .caixa-especificacoes {
+        width: 100vw;
+    }
+
+    .caixa-perguntas {
+        width: 100vw;
+    }
+
+    input {
+        width: 95%;
+    }
 
     .display-sem-quizz {
         max-width: 340px;
