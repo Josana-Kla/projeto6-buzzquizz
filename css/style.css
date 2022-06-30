@@ -177,7 +177,23 @@ input::placeholder {
 
 
 
-/*------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------- TELA LISTAR O QUIZZ DE TODOS OS USUÁRIOS --------------------------------*/
 
 
 .todos-quizzes {
@@ -237,6 +253,71 @@ input::placeholder {
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+
+/*-------------- TELA 2 DO QUIZZ --------------*/
+.banner-pagina-de-um-quizz {  /*Voltar aqui*/
+    width: 100%;
+    height: 227px;
+
+    margin-top: 70px;
+}
+
+.pagina-de-um-quizz-inteiro {
+    width: 759px;
+
+    display: flex;
+    flex-direction: column;  
+    justify-content: center;
+    align-items: center;
+}
+
+.quizz {
+    background-color: #FFFFFF;
+
+    padding: 30px;
+    margin-bottom: 42px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.quizz span {
+    background-color: #434CA0;
+
+    width: 100%;
+    height: 138px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quizz h3 {
+    color: #FFFFFF;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.caixa-imagens-quizz {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 18px;
+}
+
+.caixa-imagens-quizz p {
+    font-size: 20px;
+    font-weight: bold;
+
+    margin: 8px 0 20px 0;
 }
 
 
