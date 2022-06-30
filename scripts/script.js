@@ -56,7 +56,7 @@ function adicionarCaixasDePerguntas () {
                 <div class="numero-pergunta">
                     <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
                     <input type="text" name="pergunta" placeholder="Texto da pergunta">
-                    <input type="text" name="corPergunta" placeholder="Cor de fundo da pergunta">
+                    <input type="text" name="corPergunta" maxlength="7" placeholder="Cor de fundo da pergunta">
                 </div>
                 <div class="resposta-correta">
                     <h2 class="subtitulo-instrucao">Resposta correta</h2>
@@ -90,7 +90,7 @@ function checagemPerguntas () {
     for(let i = 0; i < qtdPerguntas; i++) {
         tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value
         corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value
-        if(tituloPergunta.length >= 20) {
+        if(tituloPergunta.length >= 20 && corPergunta.startsWith('#') && corPergunta) {
             prosseguirParaNiveis()
         }else {
             return;
