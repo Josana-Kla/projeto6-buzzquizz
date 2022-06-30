@@ -6,6 +6,8 @@ let URLQuizz;
 let qtdPerguntas;
 let qtdNiveis;
 let pagCriacaoPerguntas;
+let tituloPergunta;
+let corPergunta;
 /* ------------------------- FUNÇÕES DE CRIAÇÃO ------------------------- */
 
 function criarQuizz () {
@@ -30,7 +32,7 @@ function checagemEspecificacoes () {
     URLQuizz = document.querySelector(".caixa-especificacoes input:nth-child(2)").value;
     qtdPerguntas = Number(document.querySelector(".caixa-especificacoes input:nth-child(3)").value);
     qtdNiveis = Number(document.querySelector(".caixa-especificacoes input:nth-child(4)").value);
-    if(tituloQuizz.length >= 20 && qtdPerguntas >= 3 && qtdNiveis >= 2) {
+    if(tituloQuizz.length >= 20 && (URLQuizz.startsWith('https://') || URLQuizz.startsWith('http://')) && qtdPerguntas >= 3 && qtdNiveis >= 2) {
         prosseguirParaPerguntas();
     } else {
         return;
@@ -50,7 +52,7 @@ function adicionarCaixasDePerguntas () {
     pagCriacaoPerguntas = document.querySelector(".pag-criacao-perguntas");
     for(let i = 0; i < qtdPerguntas; i++) {
         pagCriacaoPerguntas.innerHTML += `
-        <div class="caixa-perguntas">
+        <div class="caixa-perguntas pergunta${i + 1}">
                 <div class="numero-pergunta">
                     <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
                     <input type="text" name="pergunta" placeholder="Texto da pergunta">
@@ -78,10 +80,22 @@ function adicionarCaixasDePerguntas () {
 
 function adicionarBotaoParaNiveis () {
     pagCriacaoPerguntas.innerHTML += `
-    <div class="botao criar-niveis" onclick="prosseguirParaNiveis()">
+    <div class="botao criar-niveis" onclick="checagemPerguntas()">
         <h2>Prosseguir para criar níveis</h2>
     </div>
     `
+}
+
+function checagemPerguntas () {
+    for(let i = 0; i < qtdPerguntas; i++) {
+        tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value
+        corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value
+        if(tituloPergunta.length >= 20) {
+            prosseguirParaNiveis()
+        }else {
+            return;
+        }
+    }
 }
 
  function prosseguirParaNiveis () {
