@@ -93,7 +93,7 @@ function prosseguirParaPerguntas () {
 listarTodosQuizzes();
 
 function listarTodosQuizzes() {
-    let promise = axios.get('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes');
+    let promise = axios.get('https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes');
     promise.then(pegarDadosDosQuizzes);
     promise.catch(errorPegarDados);
 }
@@ -113,7 +113,6 @@ function quizzesDeOutrosUsuarios() {
         <div class="todos-quizzes">
             <h2>Todos os Quizzes</h2>
             <div class="lista-todos-quizzes">
-
             </div>
         </div>
     `
@@ -129,7 +128,7 @@ function quizzesDeOutrosUsuarios() {
                 <p>${dadosDosQuizzes[i].title}</p>
             </div>
         `
-    }
+     }
 
     console.log(pegarClasseListaTodosQuizzesNoHtml);
 }
