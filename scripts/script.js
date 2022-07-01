@@ -1,10 +1,18 @@
 /* ------------------------- VARIÁVEIS ------------------------- */
 let dadosDosQuizzes = [];
 let pegarClasseConteudoNoHtml = document.querySelector('.conteudo');
-
+let tituloQuizz;
+let URLQuizz;
+let qtdPerguntas;
+let qtdNiveis;
+let pagCriacaoPerguntas;
+let tituloPergunta;
+let corPergunta;
+let respostaCorreta;
+let URLRespostaCorreta;
 /* ------------------------- FUNÇÕES DE CRIAÇÃO ------------------------- */
 
-function criarQuizz () {
+function criarQuizz() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-criacao-quizz">
             <h2 class="titulo-instrucao">Comece pelo começo</h2>
@@ -14,22 +22,43 @@ function criarQuizz () {
                 <input type="text" name="qtdPerg" placeholder="Quantidade de perguntas do seu quizz">
                 <input type="text" name="qtdNiveis" placeholder="Quantidade de níveis do seu quizz">
             </div>
-            <div class="botao criar-perguntas" onclick="prosseguirParaPerguntas()">
+            <div class="botao criar-perguntas" onclick="checagemEspecificacoes()">
                 <h2>Prosseguir para criar perguntas</h2>
             </div>
         </div>
     `
 }
 
-function prosseguirParaPerguntas () {
+function checagemEspecificacoes() {
+    tituloQuizz = document.querySelector(".caixa-especificacoes input:nth-child(1)").value;
+    URLQuizz = document.querySelector(".caixa-especificacoes input:nth-child(2)").value;
+    qtdPerguntas = Number(document.querySelector(".caixa-especificacoes input:nth-child(3)").value);
+    qtdNiveis = Number(document.querySelector(".caixa-especificacoes input:nth-child(4)").value);
+    if(tituloQuizz.length >= 20 && (URLQuizz.startsWith('https://') || URLQuizz.startsWith('http://')) && qtdPerguntas >= 3 && qtdNiveis >= 2) {
+        prosseguirParaPerguntas();
+    } else {
+        alert("Preencha os dados corretamente");
+    }
+}
+
+function prosseguirParaPerguntas() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-criacao-perguntas">
             <h2 class="titulo-instrucao">Crie suas perguntas</h2>
-            <div class="caixa-perguntas">
+    </div>
+    `
+    adicionarCaixasDePerguntas();
+}
+
+function adicionarCaixasDePerguntas() {
+    pagCriacaoPerguntas = document.querySelector(".pag-criacao-perguntas");
+    for(let i = 0; i < qtdPerguntas; i++) {
+        pagCriacaoPerguntas.innerHTML += `
+        <div class="caixa-perguntas pergunta${i + 1}">
                 <div class="numero-pergunta">
-                    <h2 class="subtitulo-instrucao">Pergunta 1</h2>
+                    <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
                     <input type="text" name="pergunta" placeholder="Texto da pergunta">
-                    <input type="text" name="corPergunta" placeholder="Cor de fundo da pergunta">
+                    <input type="text" name="corPergunta" maxlength="7" placeholder="Cor de fundo da pergunta">
                 </div>
                 <div class="resposta-correta">
                     <h2 class="subtitulo-instrucao">Resposta correta</h2>
@@ -45,15 +74,77 @@ function prosseguirParaPerguntas () {
                     <input type="text" name="respostaIncorreta3" placeholder="Resposta incorreta 3">
                     <input type="text" name="URLRespostaIncorreta3" placeholder="URL da imagem 3">
                 </div>
-            </div>
-            <div class="botao criar-niveis">
-                <h2>Prosseguir para criar níveis</h2>
-            </div>
         </div>
+        `
+    }
+    adicionarBotaoParaNiveis();
+}
+
+function adicionarBotaoParaNiveis() {
+    pagCriacaoPerguntas.innerHTML += `
+    <div class="botao criar-niveis" onclick="checagemPerguntas()">
+        <h2>Prosseguir para criar níveis</h2>
+    </div>
     `
 }
 
+function checagemPerguntas() {
+    for(let i = 0; i < qtdPerguntas; i++) {
+        tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value;
+        corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
+        if(tituloPergunta.length >= 20 && corPergunta.startsWith('#') && corPergunta) {
+            checagemRespostaCorreta()
+        } else {
+            alert("Preencha os dados corretamente");
+        }
+    }
+}
 
+function checagemRespostaCorreta() {
+    for(let i = 0; i < qtdPerguntas; i++) {
+        respostaCorreta = document.querySelector(`.pergunta${i + 1} .resposta-correta input:nth-child(2)`).value;
+        URLRespostaCorreta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
+        if(respostaCorreta !== undefined && (URLRespostaCorreta.startsWith('https://') || URLRespostaCorreta.startsWith('http://'))) {
+            prosseguirParaNiveis();
+        } else {
+            alert("Preencha os dados corretamente");
+        }
+    }
+}
+
+ function prosseguirParaNiveis() {
+    pegarClasseConteudoNoHtml.innerHTML = `
+    <div class="pag-criacao-niveis">
+        <h2 class="titulo-instrucao">Agora, decida os níveis</h2>
+    </div>
+     `
+     adicionarCaixasDeNiveis();
+ }
+
+ function adicionarCaixasDeNiveis() {
+    pagCriacaoNiveis = document.querySelector(".pag-criacao-niveis");
+    for(let i = 0; i < qtdNiveis; i++) {
+        pagCriacaoNiveis.innerHTML += `
+        <div class="caixa-niveis">
+                <h2 class="subtitulo-instrucao">Nível ${i + 1}</h2>
+                <input type="text" name="tituloNivel" placeholder="Título do nível">
+                <input type="text" name="%Acerto" placeholder="% de acerto mínima">
+                <input type="text" name="URLNivel" placeholder="URL da imagem do nível">
+                <input type="text" name="desricaoNivel" placeholder="Descrição do nível">
+            </div>
+            
+        `
+    }
+    adicionarBotaoFinal();
+ }
+
+ function adicionarBotaoFinal() {
+    pagCriacaoNiveis.innerHTML += `
+    <div class="botao criar-niveis">
+        <h2>Finalizar Quizz</h2>
+    </div>
+    `
+ }
 
 
 
