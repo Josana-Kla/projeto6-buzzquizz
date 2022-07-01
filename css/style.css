@@ -90,6 +90,10 @@ body {
     justify-content: space-evenly;
 }
 
+.caixa-perguntas input {
+    margin-top: 15px;
+}
+
 input {
     font-family: 'Roboto', sans-serif;
     font-size: 19px;
@@ -110,9 +114,6 @@ input::placeholder {
     font-weight: 400;
 }
 
-.caixa-perguntas input {
-    margin-top: 15px;
-}
 
 .botao {
     width: 355px;

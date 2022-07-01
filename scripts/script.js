@@ -8,9 +8,11 @@ let qtdNiveis;
 let pagCriacaoPerguntas;
 let tituloPergunta;
 let corPergunta;
+let respostaCorreta;
+let URLRespostaCorreta;
 /* ------------------------- FUNÇÕES DE CRIAÇÃO ------------------------- */
 
-function criarQuizz () {
+function criarQuizz() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-criacao-quizz">
             <h2 class="titulo-instrucao">Comece pelo começo</h2>
@@ -27,7 +29,7 @@ function criarQuizz () {
     `
 }
 
-function checagemEspecificacoes () {
+function checagemEspecificacoes() {
     tituloQuizz = document.querySelector(".caixa-especificacoes input:nth-child(1)").value;
     URLQuizz = document.querySelector(".caixa-especificacoes input:nth-child(2)").value;
     qtdPerguntas = Number(document.querySelector(".caixa-especificacoes input:nth-child(3)").value);
@@ -35,11 +37,11 @@ function checagemEspecificacoes () {
     if(tituloQuizz.length >= 20 && (URLQuizz.startsWith('https://') || URLQuizz.startsWith('http://')) && qtdPerguntas >= 3 && qtdNiveis >= 2) {
         prosseguirParaPerguntas();
     } else {
-        return;
+        alert("Preencha os dados corretamente");
     }
 }
 
-function prosseguirParaPerguntas () {
+function prosseguirParaPerguntas() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-criacao-perguntas">
             <h2 class="titulo-instrucao">Crie suas perguntas</h2>
@@ -48,7 +50,7 @@ function prosseguirParaPerguntas () {
     adicionarCaixasDePerguntas();
 }
 
-function adicionarCaixasDePerguntas () {
+function adicionarCaixasDePerguntas() {
     pagCriacaoPerguntas = document.querySelector(".pag-criacao-perguntas");
     for(let i = 0; i < qtdPerguntas; i++) {
         pagCriacaoPerguntas.innerHTML += `
@@ -78,7 +80,7 @@ function adicionarCaixasDePerguntas () {
     adicionarBotaoParaNiveis();
 }
 
-function adicionarBotaoParaNiveis () {
+function adicionarBotaoParaNiveis() {
     pagCriacaoPerguntas.innerHTML += `
     <div class="botao criar-niveis" onclick="checagemPerguntas()">
         <h2>Prosseguir para criar níveis</h2>
@@ -86,19 +88,31 @@ function adicionarBotaoParaNiveis () {
     `
 }
 
-function checagemPerguntas () {
+function checagemPerguntas() {
     for(let i = 0; i < qtdPerguntas; i++) {
-        tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value
-        corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value
+        tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value;
+        corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
         if(tituloPergunta.length >= 20 && corPergunta.startsWith('#') && corPergunta) {
-            prosseguirParaNiveis()
-        }else {
-            return;
+            checagemRespostaCorreta()
+        } else {
+            alert("Preencha os dados corretamente");
         }
     }
 }
 
- function prosseguirParaNiveis () {
+function checagemRespostaCorreta() {
+    for(let i = 0; i < qtdPerguntas; i++) {
+        respostaCorreta = document.querySelector(`.pergunta${i + 1} .resposta-correta input:nth-child(2)`).value;
+        URLRespostaCorreta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
+        if(respostaCorreta !== undefined && (URLRespostaCorreta.startsWith('https://') || URLRespostaCorreta.startsWith('http://'))) {
+            prosseguirParaNiveis();
+        } else {
+            alert("Preencha os dados corretamente");
+        }
+    }
+}
+
+ function prosseguirParaNiveis() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-criacao-niveis">
         <h2 class="titulo-instrucao">Agora, decida os níveis</h2>
@@ -107,7 +121,7 @@ function checagemPerguntas () {
      adicionarCaixasDeNiveis();
  }
 
- function adicionarCaixasDeNiveis () {
+ function adicionarCaixasDeNiveis() {
     pagCriacaoNiveis = document.querySelector(".pag-criacao-niveis");
     for(let i = 0; i < qtdNiveis; i++) {
         pagCriacaoNiveis.innerHTML += `
@@ -124,7 +138,7 @@ function checagemPerguntas () {
     adicionarBotaoFinal();
  }
 
- function adicionarBotaoFinal () {
+ function adicionarBotaoFinal() {
     pagCriacaoNiveis.innerHTML += `
     <div class="botao criar-niveis">
         <h2>Finalizar Quizz</h2>
