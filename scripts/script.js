@@ -92,7 +92,7 @@ function checagemPerguntas() {
     for(let i = 0; i < qtdPerguntas; i++) {
         tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value;
         corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
-        if(tituloPergunta.length >= 20 && corPergunta.startsWith('#') && corPergunta) {
+        if(tituloPergunta.length >= 20 && corPergunta.startsWith('#')/*&& corPergunta números ou letras de A a F*/) {
             checagemRespostaCorreta()
         } else {
             alert("Preencha os dados corretamente");
