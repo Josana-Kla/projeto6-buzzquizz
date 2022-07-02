@@ -287,8 +287,6 @@ input::placeholder {
 }
 
 .lista-todos-quizzes p {
-    /*margin: 0 21px 13px 18px;*/
-
     font-size: 19px;
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
@@ -300,15 +298,36 @@ input::placeholder {
 
 
 /*-------------- TELA 2 DO QUIZZ --------------*/
-.banner-pagina-de-um-quizz {  /*Voltar aqui*/
+.banner-pagina-de-um-quizz { 
     width: 100%;
     height: 227px;
 
-    margin-top: 70px;
+    margin-bottom: 42px;
+
+    position: relative;
+    background-color: black;
+}
+
+.banner-pagina-de-um-quizz img {
+    width: 100%;
+    height: 100%;
+
+    opacity: 60%;
+}
+
+.banner-pagina-de-um-quizz h2 {
+    position: absolute;
+    bottom: calc((100% - 50px)/2);
+    left: calc((100vw - 759px)/2);
+    right: calc((100vw - 759px)/2);
+    
+    font-size: 39px;
+    color: #FFFFFF;
+    text-align: center;
 }
 
 .pagina-de-um-quizz-inteiro {
-    width: 759px;
+    max-width: 759px;
 
     display: flex;
     flex-direction: column;  
@@ -367,6 +386,47 @@ input::placeholder {
 
 
 
+.resultado-final-quizz {
+    background-color: #FFFFFF;
+
+    padding: 30px;
+    margin-bottom: 42px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.resultado-final-quizz span {
+    background-color: #EC362D;
+
+    width: 100%;
+    height: 99px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultado-final-quizz h3 {
+    color: #FFFFFF;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.caixa-resultado-quizz {
+    display: flex;
+    gap: 21px;
+
+    margin-top: 18px;
+}
+
+
+
+
 
 
 
@@ -397,8 +457,6 @@ input::placeholder {
    
     .todos-quizzes {
         margin: 45px 17px 0 17px;
-
-        max-width: 340px;
     }
 
     .lista-todos-quizzes {
