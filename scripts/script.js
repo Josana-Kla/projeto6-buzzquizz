@@ -1,6 +1,7 @@
 /* ------------------------- VARIÁVEIS ------------------------- */
 let dadosDosQuizzes = [];
 let pegarClasseConteudoNoHtml = document.querySelector('.conteudo');
+let idUsuarios = [];
 let tituloQuizz;
 let URLQuizz;
 let qtdPerguntas;
@@ -32,17 +33,65 @@ function criarQuizz() {
     `
 }
 
+let novoQuizz;
+let novoQuizzUsuario = null;
+let ehValido;
+
 function checagemEspecificacoes() {
     tituloQuizz = document.querySelector(".caixa-especificacoes input:nth-child(1)").value;
     URLQuizz = document.querySelector(".caixa-especificacoes input:nth-child(2)").value;
     qtdPerguntas = Number(document.querySelector(".caixa-especificacoes input:nth-child(3)").value);
     qtdNiveis = Number(document.querySelector(".caixa-especificacoes input:nth-child(4)").value);
-    if(tituloQuizz.length >= 20 && (URLQuizz.startsWith('https://') || URLQuizz.startsWith('http://')) && qtdPerguntas >= 3 && qtdNiveis >= 2) {
+    ehValido = tituloQuizz.length >= 20 && (URLQuizz.startsWith('https://') || URLQuizz.startsWith('http://'));
+    if(ehValido && qtdPerguntas >= 3 && qtdNiveis >= 2) {
+        novoQuizzUsuario = objetoNovoQuizz(qtdPerguntas, qtdNiveis);
+        console.log(novoQuizzUsuario)
+        novoQuizz.title = tituloQuizz;
+        console.log(tituloQuizz)
+        novoQuizz.image = URLQuizz;
+        console.log(URLQuizz)
+        console.log(novoQuizzUsuario)
         prosseguirParaPerguntas();
-    } else {
+    } /* else {
         alert("Preencha os dados corretamente");
-    }
+    } */
 }
+
+
+function objetoNovoQuizz (questions, levels) {
+    novoQuizz = {
+        title: "",
+        image: "",
+        questions: [],
+        levels: []
+    }
+
+    const pergunta = {
+                        title: "",
+                        color: "",
+                        answers: []
+                    }
+
+    for(let i = 0; i < questions; i++){
+        novoQuizz.questions.push(pergunta);
+    }
+
+    const niveis = {
+                    title: "",
+                    image: "",
+                    text: "",
+                    minValue: 0
+                }
+
+    for(let i = 0; i < levels; i++){
+        novoQuizz.levels.push(niveis);
+    }
+
+    return novoQuizz;
+}
+
+
+
 
 function prosseguirParaPerguntas() {
     pegarClasseConteudoNoHtml.innerHTML = `
@@ -58,25 +107,25 @@ function adicionarCaixasDePerguntas() {
     for(let i = 0; i < qtdPerguntas; i++) {
         pagCriacaoPerguntas.innerHTML += `
         <div class="caixa-perguntas">
-                <div class="numero-pergunta">
-                    <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
-                    <input type="text" name="pergunta" placeholder="Texto da pergunta">
-                    <input type="text" name="corPergunta" maxlength="7" placeholder="Cor de fundo da pergunta">
-                </div>
-                <div class="resposta-correta">
-                    <h2 class="subtitulo-instrucao">Resposta correta</h2>
-                    <input type="text" name="resposta" placeholder="Resposta correta">
-                    <input type="text" name="URLResposta" placeholder="URL da imagem">
-                </div>
-                <div class="respostas-incorretas">
-                    <h2 class="subtitulo-instrucao">Respostas incorretas</h2>
-                    <input type="text" name="respostaIncorreta1" placeholder="Resposta incorreta 1">
-                    <input type="text" name="URLRespostaIncorreta1" placeholder="URL da imagem 1">
-                    <input type="text" name="respostaIncorreta2" placeholder="Resposta incorreta 2">
-                    <input type="text" name="URLRespostaIncorreta2" placeholder="URL da imagem 2">
-                    <input type="text" name="respostaIncorreta3" placeholder="Resposta incorreta 3">
-                    <input type="text" name="URLRespostaIncorreta3" placeholder="URL da imagem 3">
-                </div>
+            <div class="numero-pergunta">
+                <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
+                <input class="texto-pergunta" type="text" name="pergunta" placeholder="Texto da pergunta" autocomplete>
+                <input class="cor-pergunta" type="color" name="corPergunta" placeholder="Cor de fundo da pergunta">
+            </div>
+            <div class="resposta-correta">
+                <h2 class="subtitulo-instrucao">Resposta correta</h2>
+                <input class="resposta-certa-texto" type="text" name="resposta" placeholder="Resposta correta" autocomplete>
+                <input class="resposta-certa-imagem" type="text" name="URLResposta" placeholder="URL da imagem" autocomplete>
+            </div>
+            <div class="respostas-incorretas">
+                <h2 class="subtitulo-instrucao">Respostas incorretas</h2>
+                <input class="resposta-errada-texto" type="text" name="respostaIncorreta1" placeholder="Resposta incorreta 1" autocomplete>
+                <input class="resposta-errada-imagem" type="text" name="URLRespostaIncorreta1" placeholder="URL da imagem 1" autocomplete>
+                <input class="resposta-errada-texto" type="text" name="respostaIncorreta2" placeholder="Resposta incorreta 2" autocomplete>
+                <input class="resposta-errada-imagem" type="text" name="URLRespostaIncorreta2" placeholder="URL da imagem 2" autocomplete>
+                <input class="resposta-errada-texto" type="text" name="respostaIncorreta3" placeholder="Resposta incorreta 3" autocomplete>
+                <input class="resposta-errada-imagem" type="text" name="URLRespostaIncorreta3" placeholder="URL da imagem 3" autocomplete>
+            </div>
         </div>
         `
     }
@@ -89,7 +138,92 @@ function adicionarBotaoParaNiveis() {
         <h2>Prosseguir para criar níveis</h2>
     </div>
     `
+
+    validacaoDosDadosDasPerguntas();
 }
+
+
+function arrayDeVerificacao(array){
+    for(let i = 0; i<array.length; i++){
+        let resultado = !array[i] ? true : false;
+        return resultado;
+    }
+}
+
+
+
+function validacaoDosDadosDasPerguntas() {
+    let dadosCorretos = [];
+    let temPeloMenosUmaRespostaErrada = false;
+    const caixaDasPerguntas = document.querySelectorAll(".caixa-perguntas");
+
+    for(let i=0; i < caixaDasPerguntas.length; i++) {
+        temPeloMenosUmaRespostaErrada = false;
+        const respostasIncorretas = caixaDasPerguntas[i].querySelectorAll(".respostas-incorretas");
+        const textoPergunta = caixaDasPerguntas[i].querySelector(".texto-pergunta").value;
+        const corDaPergunta = caixaDasPerguntas[i].querySelector(".cor-pergunta").value;
+        const respostaCertaTexto = caixaDasPerguntas[i].querySelector(".resposta-certa-texto").value;
+        const respostaCertaImagem = caixaDasPerguntas[i].querySelector(".resposta-certa-imagem").value;
+
+
+
+        if(textoPergunta.length >= 20 && respostaCertaTexto !== undefined && (respostaCertaImagem.startsWith('https://') || respostaCertaImagem.startsWith('http://'))) {
+            console.log("passou no primeiro if")
+            const perguntaDepoisDeReceberValorNovo = {
+                title: textoPergunta,
+                color: corDaPergunta,
+                answers: []
+            }  
+
+            novoQuizzUsuario.caixaDasPerguntas[i] = perguntaDepoisDeReceberValorNovo; 
+
+            const respostaDepoisDeReceberValorNovo = {
+                text: respostaCertaTexto,
+                image: respostaCertaImagem,
+                isCorrectAnswer: true
+            }
+
+            novoQuizzUsuario.caixaDasPerguntas[i].answers = [respostaDepoisDeReceberValorNovo];
+            dadosCorretos.push(true);
+        } else {
+            dadosCorretos.push(false);
+        }
+       
+
+
+
+        for(let x=0; x < respostasIncorretas.length; x++) {
+            const respostaErrada = respostasIncorretas[x].querySelector(".resposta-errada-texto").value;
+            const respostaErradaImagem = respostasIncorretas[x].querySelector(".resposta-errada-imagem").value;
+            ehValido = tituloQuizz.length >= 20 && (respostaErradaImagem.startsWith('https://') || respostaErradaImagem.startsWith('http://'));
+
+            if(ehValido) {
+                const respostaErradaDepoisDeReceberValor = {
+                    text: respostaErrada,
+                    image: respostaErradaImagem,
+                    isCorrectAnswer: false
+                } 
+
+                novoQuizzUsuario.caixaDasPerguntas[i].answers.push(respostaErradaDepoisDeReceberValor);
+                temPeloMenosUmaRespostaErrada = true;
+                dadosCorretos.push(true);
+            }
+        }
+    }
+
+
+    ehValido = arrayDeVerificacao(dadosCorretos);
+
+
+    if(temPeloMenosUmaRespostaErrada && ehValido) {
+        console.log("show");
+    } else {
+        alert("Reveja os dados inseridos!");
+    }
+    
+}
+
+
 
 function checagemRequisitosPerguntas() {
     prosseguirParaNiveis();
