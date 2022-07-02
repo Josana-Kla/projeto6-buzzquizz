@@ -57,7 +57,7 @@ function adicionarCaixasDePerguntas() {
     pagCriacaoPerguntas = document.querySelector(".pag-criacao-perguntas");
     for(let i = 0; i < qtdPerguntas; i++) {
         pagCriacaoPerguntas.innerHTML += `
-        <div class="caixa-perguntas pergunta${i + 1}">
+        <div class="caixa-perguntas">
                 <div class="numero-pergunta">
                     <h2 class="subtitulo-instrucao">Pergunta ${i + 1}</h2>
                     <input type="text" name="pergunta" placeholder="Texto da pergunta">
@@ -85,25 +85,29 @@ function adicionarCaixasDePerguntas() {
 
 function adicionarBotaoParaNiveis() {
     pagCriacaoPerguntas.innerHTML += `
-    <div class="botao criar-niveis" onclick="checagemPerguntas()">
+    <div class="botao criar-niveis" onclick="checagemRequisitosPerguntas()">
         <h2>Prosseguir para criar níveis</h2>
     </div>
     `
 }
 
-function checagemPerguntas() {
+function checagemRequisitosPerguntas() {
+    prosseguirParaNiveis();
+}
+
+/*function checagemPerguntas() {
     for(let i = 0; i < qtdPerguntas; i++) {
         tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value;
         corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
-        if(tituloPergunta.length >= 20 && corPergunta.startsWith('#')/*&& corPergunta números ou letras de A a F*/) {
-            checagemRespostaCorreta()
+        if() {
+            return true;
         } else {
-            alert("Preencha os dados corretamente");
+            return false;
         }
     }
-}
+}*/
 
-function checagemRespostaCorreta() {
+/*function checagemRespostaCorreta() {
     for(let i = 0; i < qtdPerguntas; i++) {
         respostaCorreta = document.querySelector(`.pergunta${i + 1} .resposta-correta input:nth-child(2)`).value;
         URLRespostaCorreta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
@@ -113,7 +117,7 @@ function checagemRespostaCorreta() {
             alert("Preencha os dados corretamente");
         }
     }
-}
+}*/
 
  function prosseguirParaNiveis() {
     pegarClasseConteudoNoHtml.innerHTML = `
@@ -143,12 +147,29 @@ function checagemRespostaCorreta() {
 
  function adicionarBotaoFinal() {
     pagCriacaoNiveis.innerHTML += `
-    <div class="botao criar-niveis">
+    <div class="botao finalizar-quizz" onclick="ProsseguirParaSucessoDoQuiz()">
         <h2>Finalizar Quizz</h2>
     </div>
     `
  }
 
+ function ProsseguirParaSucessoDoQuiz() {
+    pegarClasseConteudoNoHtml.innerHTML = `
+    <div class="pag-sucesso-quizz">
+            <h2 class="titulo-instrucao">Seu quizz está pronto!</h2>
+            <div>
+                <img src="/assets/simpsons.png">
+                <h3>Descubra qual personagem do simpsons você é</h3>
+            </div>
+            <div class="botao">
+                <h2>Acessar Quizz</h2>
+            </div>
+            <div class="botao-home">
+                <h2>Voltar para o home</h2>
+            </div>
+        </div>
+    `
+ }
 
 
 

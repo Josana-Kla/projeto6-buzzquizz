@@ -134,6 +134,14 @@ input::placeholder {
     margin: 80px auto;
 }
 
+.botao-home {
+    font-size: 21px;
+    color: #818181;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .display-sem-quizz {
     display: flex;
     justify-content: center;
