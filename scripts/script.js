@@ -134,12 +134,12 @@ function adicionarCaixasDePerguntas() {
 
 function adicionarBotaoParaNiveis() {
     pagCriacaoPerguntas.innerHTML += `
-    <div class="botao criar-niveis" onclick="checagemRequisitosPerguntas()">
+    <div class="botao criar-niveis" onclick="validacaoDosDadosDasPerguntas()">
         <h2>Prosseguir para criar níveis</h2>
     </div>
     `
 
-    validacaoDosDadosDasPerguntas();
+    
 }
 
 
@@ -154,6 +154,7 @@ function arrayDeVerificacao(array){
 
 function validacaoDosDadosDasPerguntas() {
     let dadosCorretos = [];
+    let estahValido;
     let temPeloMenosUmaRespostaErrada = false;
     const caixaDasPerguntas = document.querySelectorAll(".caixa-perguntas");
 
@@ -164,10 +165,17 @@ function validacaoDosDadosDasPerguntas() {
         const corDaPergunta = caixaDasPerguntas[i].querySelector(".cor-pergunta").value;
         const respostaCertaTexto = caixaDasPerguntas[i].querySelector(".resposta-certa-texto").value;
         const respostaCertaImagem = caixaDasPerguntas[i].querySelector(".resposta-certa-imagem").value;
+        estahValido = textoPergunta.length >= 20 && respostaCertaTexto !== undefined && (respostaCertaImagem.startsWith('https://') || respostaCertaImagem.startsWith('http://'));
 
+        console.log(temPeloMenosUmaRespostaErrada);
+        console.log(respostasIncorretas);
+        console.log(textoPergunta);
+        console.log(corDaPergunta);
+        console.log(respostaCertaTexto);
+        console.log(respostaCertaImagem);
+        console.log(estahValido);
 
-
-        if(textoPergunta.length >= 20 && respostaCertaTexto !== undefined && (respostaCertaImagem.startsWith('https://') || respostaCertaImagem.startsWith('http://'))) {
+        if(estahValido) {
             console.log("passou no primeiro if")
             const perguntaDepoisDeReceberValorNovo = {
                 title: textoPergunta,
@@ -175,7 +183,11 @@ function validacaoDosDadosDasPerguntas() {
                 answers: []
             }  
 
-            novoQuizzUsuario.caixaDasPerguntas[i] = perguntaDepoisDeReceberValorNovo; 
+            console.log(perguntaDepoisDeReceberValorNovo);
+            console.log(perguntaDepoisDeReceberValorNovo.title);
+            perguntaDepoisDeReceberValorNovo.title = novoQuizzUsuario.questions[1].title; 
+            console.log(perguntaDepoisDeReceberValorNovo);
+            //novoQuizzUsuario.caixaDasPerguntas[i] = perguntaDepoisDeReceberValorNovo; 
 
             const respostaDepoisDeReceberValorNovo = {
                 text: respostaCertaTexto,
@@ -189,15 +201,22 @@ function validacaoDosDadosDasPerguntas() {
             dadosCorretos.push(false);
         }
        
+        console.log(temPeloMenosUmaRespostaErrada);
+        console.log(respostasIncorretas);
+        console.log(textoPergunta);
+        console.log(corDaPergunta);
+        console.log(respostaCertaTexto);
+        console.log(respostaCertaImagem);
+        console.log(estahValido);
 
 
 
         for(let x=0; x < respostasIncorretas.length; x++) {
             const respostaErrada = respostasIncorretas[x].querySelector(".resposta-errada-texto").value;
             const respostaErradaImagem = respostasIncorretas[x].querySelector(".resposta-errada-imagem").value;
-            ehValido = tituloQuizz.length >= 20 && (respostaErradaImagem.startsWith('https://') || respostaErradaImagem.startsWith('http://'));
+            estahValido = tituloQuizz.length >= 20 && (respostaErradaImagem.startsWith('https://') || respostaErradaImagem.startsWith('http://'));
 
-            if(ehValido) {
+            if(estahValido) {
                 const respostaErradaDepoisDeReceberValor = {
                     text: respostaErrada,
                     image: respostaErradaImagem,
@@ -212,14 +231,14 @@ function validacaoDosDadosDasPerguntas() {
     }
 
 
-    ehValido = arrayDeVerificacao(dadosCorretos);
+    estahValido = arrayDeVerificacao(dadosCorretos);
 
 
     if(temPeloMenosUmaRespostaErrada) {
         console.log("show");
-    } else {
+    } /* else {
         alert("Reveja os dados inseridos!");
-    }
+    } */
     
 }
 
