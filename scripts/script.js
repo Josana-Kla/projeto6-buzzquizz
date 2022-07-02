@@ -52,9 +52,9 @@ function checagemEspecificacoes() {
         console.log(URLQuizz)
         console.log(novoQuizzUsuario)
         prosseguirParaPerguntas();
-    } /* else {
+    } else {
         alert("Preencha os dados corretamente");
-    } */
+    } 
 }
 
 
@@ -215,7 +215,7 @@ function validacaoDosDadosDasPerguntas() {
     ehValido = arrayDeVerificacao(dadosCorretos);
 
 
-    if(temPeloMenosUmaRespostaErrada && ehValido) {
+    if(temPeloMenosUmaRespostaErrada) {
         console.log("show");
     } else {
         alert("Reveja os dados inseridos!");
