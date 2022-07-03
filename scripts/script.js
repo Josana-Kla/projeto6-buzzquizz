@@ -54,7 +54,7 @@ function checagemEspecificacoes() {
         prosseguirParaPerguntas();
     } else {
         alert("Preencha os dados corretamente");
-    }
+    } 
 }
 
 
