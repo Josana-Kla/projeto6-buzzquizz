@@ -66,15 +66,6 @@ function objetoNovoQuizz (questions, levels) {
         levels: []
     }
 
-    const pergunta = {
-                        title: "",
-                        color: "",
-                        answers: []
-                    }
-
-    for(let i = 0; i < questions; i++){
-        novoQuizz.questions.push(pergunta);
-    }
 
     const niveis = {
                     title: "",
@@ -120,7 +111,7 @@ function adicionarCaixasDePerguntas() {
             <div class="respostas-incorretas">
                 <h2 class="subtitulo-instrucao">Respostas incorretas</h2>
                 <input class="resposta-errada-texto" type="text" name="respostaIncorreta1" placeholder="Resposta incorreta 1" autocomplete>
-                <input class="resposta-errada-imagem" type="text" name="URLRespostaIncorreta1" placeholder="URL da imagem 1" autocomplete>
+                <input class="resposta-errada-imagem" type="text" pattern="^(http|https)://" name="URLRespostaIncorreta1" placeholder="URL da imagem 1" autocomplete>
                 <input class="resposta-errada-texto" type="text" name="respostaIncorreta2" placeholder="Resposta incorreta 2" autocomplete>
                 <input class="resposta-errada-imagem" type="text" name="URLRespostaIncorreta2" placeholder="URL da imagem 2" autocomplete>
                 <input class="resposta-errada-texto" type="text" name="respostaIncorreta3" placeholder="Resposta incorreta 3" autocomplete>
@@ -167,13 +158,6 @@ function validacaoDosDadosDasPerguntas() {
         const respostaCertaImagem = caixaDasPerguntas[i].querySelector(".resposta-certa-imagem").value;
         estahValido = textoPergunta.length >= 20 && respostaCertaTexto !== undefined && (respostaCertaImagem.startsWith('https://') || respostaCertaImagem.startsWith('http://'));
 
-        console.log(temPeloMenosUmaRespostaErrada);
-        console.log(respostasIncorretas);
-        console.log(textoPergunta);
-        console.log(corDaPergunta);
-        console.log(respostaCertaTexto);
-        console.log(respostaCertaImagem);
-        console.log(estahValido);
 
         if(estahValido) {
             console.log("passou no primeiro if")
@@ -181,13 +165,7 @@ function validacaoDosDadosDasPerguntas() {
                 title: textoPergunta,
                 color: corDaPergunta,
                 answers: []
-            }  
-
-            console.log(perguntaDepoisDeReceberValorNovo);
-            console.log(perguntaDepoisDeReceberValorNovo.title);
-            perguntaDepoisDeReceberValorNovo.title = novoQuizzUsuario.questions[1].title; 
-            console.log(perguntaDepoisDeReceberValorNovo);
-            //novoQuizzUsuario.caixaDasPerguntas[i] = perguntaDepoisDeReceberValorNovo; 
+            } 
 
             const respostaDepoisDeReceberValorNovo = {
                 text: respostaCertaTexto,
@@ -195,39 +173,49 @@ function validacaoDosDadosDasPerguntas() {
                 isCorrectAnswer: true
             }
 
-            novoQuizzUsuario.caixaDasPerguntas[i].answers = [respostaDepoisDeReceberValorNovo];
+            //resposta certa
+            perguntaDepoisDeReceberValorNovo.answers.push(respostaDepoisDeReceberValorNovo);
+        
+            /*const textoRespostasErradas = respostasIncorretas.querySelectorAll(".resposta-errada-texto");
+            const imagemRespostasErradas = respostasIncorretas.querySelectorAll(".resposta-errada-imagem");
+            for(let i = 0; i < textoRespostasErradas.length; i++) {
+                perguntaDepoisDeReceberValorNovo.answers.push({
+                    text: textoRespostasErradas[i].value,
+                    image: imagemRespostasErradas[i].value,
+                    isCorrectAnswer: false
+                });
+            }*/
+           
+            const respostaErradas = respostasIncorretas[0].querySelectorAll(".resposta-errada-texto");
+            const respostaErradaImagens = respostasIncorretas[0].querySelectorAll(".resposta-errada-imagem");
+            for(let x=0; x < respostaErradas.length; x++) {
+                estahValido = tituloQuizz.length >= 20 && 
+                    (respostaErradaImagens[x].value.startsWith('https://') || respostaErradaImagens[x].value.startsWith('http://'));
+    
+                if(estahValido) {
+                    const respostaErradaDepoisDeReceberValor = {
+                        text: respostaErradas[x].value,
+                        image: respostaErradaImagens[x].value,
+                        isCorrectAnswer: false
+                    } 
+    
+                    perguntaDepoisDeReceberValorNovo.answers.push(respostaErradaDepoisDeReceberValor);
+                    temPeloMenosUmaRespostaErrada = true;
+                    dadosCorretos.push(true);
+                } else {
+                    //TODO: Alerta
+                    //perguntaDepoisDeReceberValorNovo.answers = []
+                    return;
+                }
+            }
+            
             dadosCorretos.push(true);
+            novoQuizzUsuario.questions.push(perguntaDepoisDeReceberValorNovo);
         } else {
             dadosCorretos.push(false);
         }
-       
-        console.log(temPeloMenosUmaRespostaErrada);
-        console.log(respostasIncorretas);
-        console.log(textoPergunta);
-        console.log(corDaPergunta);
-        console.log(respostaCertaTexto);
-        console.log(respostaCertaImagem);
-        console.log(estahValido);
 
-
-
-        for(let x=0; x < respostasIncorretas.length; x++) {
-            const respostaErrada = respostasIncorretas[x].querySelector(".resposta-errada-texto").value;
-            const respostaErradaImagem = respostasIncorretas[x].querySelector(".resposta-errada-imagem").value;
-            estahValido = tituloQuizz.length >= 20 && (respostaErradaImagem.startsWith('https://') || respostaErradaImagem.startsWith('http://'));
-
-            if(estahValido) {
-                const respostaErradaDepoisDeReceberValor = {
-                    text: respostaErrada,
-                    image: respostaErradaImagem,
-                    isCorrectAnswer: false
-                } 
-
-                novoQuizzUsuario.caixaDasPerguntas[i].answers.push(respostaErradaDepoisDeReceberValor);
-                temPeloMenosUmaRespostaErrada = true;
-                dadosCorretos.push(true);
-            }
-        }
+        
     }
 
 
