@@ -58,24 +58,12 @@ function checagemEspecificacoes() {
 }
 
 
-function objetoNovoQuizz (questions, levels) {
+function objetoNovoQuizz () {
     novoQuizz = {
         title: "",
         image: "",
         questions: [],
         levels: []
-    }
-
-
-    const niveis = {
-                    title: "",
-                    image: "",
-                    text: "",
-                    minValue: 0
-                }
-
-    for(let i = 0; i < levels; i++){
-        novoQuizz.levels.push(niveis);
     }
 
     return novoQuizz;
@@ -237,10 +225,10 @@ function validacaoDosDadosDasPerguntas() {
         pagCriacaoNiveis.innerHTML += `
         <div class="caixa-niveis">
                 <h2 class="subtitulo-instrucao">Nível ${i + 1}</h2>
-                <input type="text" name="tituloNivel" placeholder="Título do nível">
-                <input type="text" name="%Acerto" placeholder="% de acerto mínima">
-                <input type="text" name="URLNivel" placeholder="URL da imagem do nível">
-                <input type="text" name="desricaoNivel" placeholder="Descrição do nível">
+                <input class="texto-nivel" type="text" name="tituloNivel" placeholder="Título do nível">
+                <input class="porcentagem-acerto" type="text" name="%Acerto" placeholder="% de acerto mínima">
+                <input class="nivel-imagem" type="text" name="URLNivel" placeholder="URL da imagem do nível">
+                <input class="texto-descricao-nivel" type="text" name="desricaoNivel" placeholder="Descrição do nível">
             </div>
             
         `
@@ -250,32 +238,89 @@ function validacaoDosDadosDasPerguntas() {
 
  function adicionarBotaoFinal() {
     pagCriacaoNiveis.innerHTML += `
-    <div class="botao finalizar-quizz" onclick="ProsseguirParaSucessoDoQuiz()">
+    <div class="botao finalizar-quizz" onclick="validacaoDosDadosDosNiveis()">
         <h2>Finalizar Quizz</h2>
     </div>
     `
  }
 
- function ProsseguirParaSucessoDoQuiz() {
+ function validacaoDosDadosDosNiveis() {
+    let dadosCorretos = [];
+    let estahValido;
+    const caixaDosNiveis = document.querySelectorAll(".caixa-niveis");
+    const caixaDosNiveisInputs = document.querySelectorAll(".caixa-niveis input");
+
+    for(let i = 0; i < caixaDosNiveis.length; i++) {
+        const textoNivel = caixaDosNiveis[i].querySelector(".texto-nivel").value;
+        const porcentagemAcerto = Number(caixaDosNiveis[i].querySelector(".porcentagem-acerto").value);
+        const nivelImagem = caixaDosNiveis[i].querySelector(".nivel-imagem").value;
+        const descricaoNivel = caixaDosNiveis[i].querySelector(".texto-descricao-nivel").value;
+        estahValido = textoNivel.length >= 10 && (porcentagemAcerto >= 0 && porcentagemAcerto <= 100) && (nivelImagem.startsWith('https://') || nivelImagem.startsWith('http://')) && descricaoNivel.length >= 30;
+
+        if(caixaDosNiveisInputs[i].value !== "") {
+            if(estahValido) {
+                const objetoNiveis = {
+                    title: textoNivel,
+                    image: nivelImagem,
+                    text: descricaoNivel,
+                    minValue: porcentagemAcerto,
+                    
+                }
+    
+                dadosCorretos.push(true);
+                novoQuizzUsuario.levels.push(objetoNiveis);
+            } else {
+                dadosCorretos.push(false);
+                return;
+            }
+            prosseguirParaSucessoDoQuiz();
+        }
+        
+        
+    }
+
+
+    estahValido = arrayDeVerificacao(dadosCorretos);    
+}
+
+ function prosseguirParaSucessoDoQuiz() {
     pegarClasseConteudoNoHtml.innerHTML = `
     <div class="pag-sucesso-quizz">
             <h2 class="titulo-instrucao">Seu quizz está pronto!</h2>
             <div>
-                <img src="/assets/simpsons.png">
-                <h3>Descubra qual personagem do simpsons você é</h3>
+                <img src="${URLQuizz}">
+                <h3>${tituloQuizz}</h3>
             </div>
-            <div class="botao">
+            <div id="${object.data.id} class="botao" onclick="enviarQuizzUsuário()">
                 <h2>Acessar Quizz</h2>
             </div>
-            <div class="botao-home">
+            <div class="botao-home" onclick="voltarHome()">
                 <h2>Voltar para o home</h2>
             </div>
         </div>
     `
  }
 
+ function enviarQuizzUsuário() {
+    const promise = axios.post("https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes", novoQuizz);
+    promise.then(terminarQuizz);
+    promise.catch(erro);
+    let erro = alert("ocorreu um erro");
+    console.log(promise);
+    //acessarQuizzDoUsuário();
+ }
 
+ function terminarQuizz(object){
+    console.log(object);
+    addLocalQuizzID(object.data.id);
+    axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${object.data.id}`)
+    .then(mostrarQuizzCriado); 
+}
 
+function voltarHome() {
+    pegarClasseConteudoNoHtml.innerHTML = ""
+    quizzesDeOutrosUsuarios();
+}
 
 
 
