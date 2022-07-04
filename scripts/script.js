@@ -360,7 +360,6 @@ function pegarDadosDosQuizzes(resposta) {
     quizzesDeOutrosUsuarios();
 }
 
-// if(id !== idsUsuario) { "roda a funcao quizzesDeOutrosUsuarios" } else if(id === idsUsuario) { "guardar na lista de quizzes do usuario" }
 
 function quizzesDeOutrosUsuarios() {
 
@@ -388,27 +387,13 @@ function errorPegarDados() {
     alert('deu erro');
 }
 
-/* 
-    function pegarDadosDosQuizzes(resposta) {
-        console.log(resposta)
-        dadosDosQuizzes = resposta.data;
-        dadosPerguntasQuizzes = resposta.data[0].questions[0].title;
-        console.log(dadosPerguntasQuizzes);
-    }
- */
+
+
+let perguntasQuizzOutrosClicado = [];
 
 function acessarQuizzOutroUsuario(element) {
     let imagemQuizzCLicado = element.querySelector('img').src;
     let tituloQuizzCLicado = element.querySelector('p').innerHTML;
-   
-    let idDoElemento = element.getAttribute("id");
-
-    let promise = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${idDoElemento}`);
-    promise.then(pegarDadosDosQuizzes);
-
-    function pegarDadosDosQuizzes(resposta) {
-        console.log(resposta.questions);
-    } 
 
     pegarClasseConteudoNoHtml.innerHTML = `
         <div class="banner-pagina-de-um-quizz">
@@ -416,85 +401,72 @@ function acessarQuizzOutroUsuario(element) {
             <h2>${tituloQuizzCLicado}</h2>
         </div> 
     `
-
-
-    let cadaQuizzUsuario = [];
-    for(let i = 0; i < dadosDosQuizzes.length; i++) {
-        cadaQuizzUsuario = dadosDosQuizzes[i];
-        console.log(cadaQuizzUsuario);
-
-
-        let testeParaveroqueeh = [];
-        for(let j = 0; j < cadaQuizzUsuario.length; j++) {
-            testeParaveroqueeh = cadaQuizzUsuario.questions[j];
-            console.log(cadaQuizzUsuario);
-
-            pegarClasseConteudoNoHtml.innerHTML += `
-                <div class="pagina-de-um-quizz-inteiro">
-                    <div class="quizz">
-                        <span><h3>${testeParaveroqueeh[j].title}</h3></span>
-
-                    </div>
-                </div>    
-            `
-
-            let pegueiAsRespostas = [];
-            for(let k = 0; k < testeParaveroqueeh.length; k++) {
-                pegueiAsRespostas = testeParaveroqueeh.answers[k];
-                console.log(pegueiAsRespostas);
-            } 
-
-
-        }
-    }
-
-
    
+    let idDoElemento = element.getAttribute("id");
 
-   /*  <div class="caixa-imagens-quizz">
-                        <div>
-                            <img src=".${cadaQuizzUsuario.questions[j].answers[j].image}" width="330px" height="175px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                    </div>
-                </div>
-    
+    let promise = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${idDoElemento}`);
+    promise.then(pegarDadosDosQuizzes);
+
+    function pegarDadosDosQuizzes(resposta) {
+        perguntasQuizzOutrosClicado = resposta.data.questions;
+        perguntasDoQuizzDosOutros();
+    }   
+}
+
+function perguntasDoQuizzDosOutros() {
+
+    for(let i = 0; i < perguntasQuizzOutrosClicado.length; i++) {
+        
+        pegarClasseConteudoNoHtml.innerHTML += `
+            <div class="pagina-de-um-quizz-inteiro">
                 <div class="quizz">
-                    <span><h3>Em qual animal Olho-Tonto Moody transfigurou Malfoy?</h3></span>
-    
-                    <div class="caixa-imagens-quizz">
-                        <div>
-                            <img src="./assets/simpsons.png" width="330px" height="175px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                        <div>
-                            <img src="./assets/simpsons.png" width="300px">
-                            <p>Gatíneo</p>
-                        </div>
-                    </div>
+                    <span><h3>${perguntasQuizzOutrosClicado[i].title}</h3></span>
                 </div>
-            </div> */
+                <div class="caixa-imagens-quizz" id="${i}">
+                </div>
+            </div>    
+        `
+        console.log(pegarClasseConteudoNoHtml);
 
 
-    console.log(pegarClasseConteudoNoHtml); 
+        let = cadaPerguntaDoQuizzUsuario = perguntasQuizzOutrosClicado[i].answers;
+        cadaPerguntaDoQuizzUsuario.sort(embaralharRespostas);
+        let respostas = document.getElementById(i);
+
+        for(let j = 0; j < cadaPerguntaDoQuizzUsuario.length; j++) {
+           /*  testeParaveroqueeh = cadaPerguntaDoQuizzUsuario[i].answers[j];
+            console.log(testeParaveroqueeh); */
+
+            //let caixaParaPorImagensDoQuizz = document.querySelector('.pagina-de-um-quizz-inteiro .caixa-imagens-quizz');
+
+
+            respostas.innerHTML = `
+                <div>
+                    <img src=".${cadaPerguntaDoQuizzUsuario[j].image}" width="330px" height="175px">
+                    <p>${cadaPerguntaDoQuizzUsuario[j].text}</p>
+                </div>
+                <div>
+                    <img src=".${cadaPerguntaDoQuizzUsuario[j].image}" width="330px" height="175px">
+                    <p>${cadaPerguntaDoQuizzUsuario[j].text}</p>
+                </div>
+                <div>
+                    <img src=".${cadaPerguntaDoQuizzUsuario[j].image}" width="330px" height="175px">
+                    <p>${cadaPerguntaDoQuizzUsuario[j].text}</p>
+                </div>
+                <div>
+                    <img src=".${cadaPerguntaDoQuizzUsuario[j].image}" width="330px" height="175px">
+                    <p>${cadaPerguntaDoQuizzUsuario[j].text}</p>
+                </div>
+            `
+        }
+        respostas = [];
+    }
+}
+
+function embaralharRespostas(){
+    return Math.random() - 0.5;
+}
+
+function validandoRespostasSelecionadasQuizzOutroUsuario() {
+
 }
