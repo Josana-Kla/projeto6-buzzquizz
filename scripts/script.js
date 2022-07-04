@@ -192,6 +192,7 @@ function validacaoDosDadosDasPerguntas() {
                     perguntaDepoisDeReceberValorNovo.answers.push(respostaErradaDepoisDeReceberValor);
                     temPeloMenosUmaRespostaErrada = true;
                     dadosCorretos.push(true);
+                    prosseguirParaNiveis();
                 } else {
                     //alert("Preencha os dados corretamente")
                     //perguntaDepoisDeReceberValorNovo.answers = [];
@@ -304,7 +305,6 @@ function validacaoDosDadosDasPerguntas() {
 
 
 
-
 /* ------------------------- FUNÇÕES DE LISTAGENS ------------------------- */
 
 listarTodosQuizzes();
@@ -315,11 +315,11 @@ function listarTodosQuizzes() {
     promise.catch(errorPegarDados);
 }
 
+let dadosPerguntasQuizzes;
 function pegarDadosDosQuizzes(resposta) {
     dadosDosQuizzes = resposta.data;
     quizzesDeOutrosUsuarios();
 }
-
 
 // if(id !== idsUsuario) { "roda a funcao quizzesDeOutrosUsuarios" } else if(id === idsUsuario) { "guardar na lista de quizzes do usuario" }
 
@@ -337,25 +337,40 @@ function quizzesDeOutrosUsuarios() {
 
     for(let i = 0; i < dadosDosQuizzes.length; i++) {
         pegarClasseListaTodosQuizzesNoHtml.innerHTML += `
-            <div onclick="acessarQuizzOutroUsuario(this)">
+            <div id="${dadosDosQuizzes[i].id}" onclick="acessarQuizzOutroUsuario(this)">
                 <img src="${dadosDosQuizzes[i].image}">
                 <p>${dadosDosQuizzes[i].title}</p>
             </div>
         `
     }
-
-    console.log(dadosDosQuizzes)
 }
 
 function errorPegarDados() {
     alert('deu erro');
 }
 
+/* 
+    function pegarDadosDosQuizzes(resposta) {
+        console.log(resposta)
+        dadosDosQuizzes = resposta.data;
+        dadosPerguntasQuizzes = resposta.data[0].questions[0].title;
+        console.log(dadosPerguntasQuizzes);
+    }
+ */
 
 function acessarQuizzOutroUsuario(element) {
     let imagemQuizzCLicado = element.querySelector('img').src;
     let tituloQuizzCLicado = element.querySelector('p').innerHTML;
-    
+   
+    let idDoElemento = element.getAttribute("id");
+
+    let promise = axios.get(`https://mock-api.driven.com.br/api/v7/buzzquizz/quizzes/${idDoElemento}`);
+    promise.then(pegarDadosDosQuizzes);
+
+    function pegarDadosDosQuizzes(resposta) {
+        console.log(resposta.questions);
+    } 
+
     pegarClasseConteudoNoHtml.innerHTML = `
         <div class="banner-pagina-de-um-quizz">
             <img src="${imagemQuizzCLicado}">
@@ -364,57 +379,83 @@ function acessarQuizzOutroUsuario(element) {
     `
 
 
-    pegarClasseConteudoNoHtml.innerHTML += `
-        <div class="pagina-de-um-quizz-inteiro">
-            <div class="quizz">
-                <span><h3>Em qual animal Olho-Tonto Moody transfigurou Malfoy?</h3></span>
+    let cadaQuizzUsuario = [];
+    for(let i = 0; i < dadosDosQuizzes.length; i++) {
+        cadaQuizzUsuario = dadosDosQuizzes[i];
+        console.log(cadaQuizzUsuario);
 
-                <div class="caixa-imagens-quizz">
-                    <div>
-                        <img src="./assets/simpsons.png" width="330px" height="175px">
-                        <p>Gatíneo</p>
+
+        let testeParaveroqueeh = [];
+        for(let j = 0; j < cadaQuizzUsuario.length; j++) {
+            testeParaveroqueeh = cadaQuizzUsuario.questions[j];
+            console.log(cadaQuizzUsuario);
+
+            pegarClasseConteudoNoHtml.innerHTML += `
+                <div class="pagina-de-um-quizz-inteiro">
+                    <div class="quizz">
+                        <span><h3>${testeParaveroqueeh[j].title}</h3></span>
+
                     </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
-                    </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
-                    </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
+                </div>    
+            `
+
+            let pegueiAsRespostas = [];
+            for(let k = 0; k < testeParaveroqueeh.length; k++) {
+                pegueiAsRespostas = testeParaveroqueeh.answers[k];
+                console.log(pegueiAsRespostas);
+            } 
+
+
+        }
+    }
+
+
+   
+
+   /*  <div class="caixa-imagens-quizz">
+                        <div>
+                            <img src=".${cadaQuizzUsuario.questions[j].answers[j].image}" width="330px" height="175px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="quizz">
-                <span><h3>Em qual animal Olho-Tonto Moody transfigurou Malfoy?</h3></span>
-
-                <div class="caixa-imagens-quizz">
-                    <div>
-                        <img src="./assets/simpsons.png" width="330px" height="175px">
-                        <p>Gatíneo</p>
-                    </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
-                    </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
-                    </div>
-                    <div>
-                        <img src="./assets/simpsons.png" width="300px">
-                        <p>Gatíneo</p>
+    
+                <div class="quizz">
+                    <span><h3>Em qual animal Olho-Tonto Moody transfigurou Malfoy?</h3></span>
+    
+                    <div class="caixa-imagens-quizz">
+                        <div>
+                            <img src="./assets/simpsons.png" width="330px" height="175px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
+                        <div>
+                            <img src="./assets/simpsons.png" width="300px">
+                            <p>Gatíneo</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    `
+            </div> */
+
 
     console.log(pegarClasseConteudoNoHtml); 
 }
-
-
