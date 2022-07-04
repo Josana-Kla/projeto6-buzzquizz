@@ -175,16 +175,6 @@ function validacaoDosDadosDasPerguntas() {
 
             //resposta certa
             perguntaDepoisDeReceberValorNovo.answers.push(respostaDepoisDeReceberValorNovo);
-        
-            /*const textoRespostasErradas = respostasIncorretas.querySelectorAll(".resposta-errada-texto");
-            const imagemRespostasErradas = respostasIncorretas.querySelectorAll(".resposta-errada-imagem");
-            for(let i = 0; i < textoRespostasErradas.length; i++) {
-                perguntaDepoisDeReceberValorNovo.answers.push({
-                    text: textoRespostasErradas[i].value,
-                    image: imagemRespostasErradas[i].value,
-                    isCorrectAnswer: false
-                });
-            }*/
            
             const respostaErradas = respostasIncorretas[0].querySelectorAll(".resposta-errada-texto");
             const respostaErradaImagens = respostasIncorretas[0].querySelectorAll(".resposta-errada-imagem");
@@ -203,14 +193,15 @@ function validacaoDosDadosDasPerguntas() {
                     temPeloMenosUmaRespostaErrada = true;
                     dadosCorretos.push(true);
                 } else {
-                    //TODO: Alerta
-                    //perguntaDepoisDeReceberValorNovo.answers = []
+                    //alert("Preencha os dados corretamente")
+                    //perguntaDepoisDeReceberValorNovo.answers = [];
                     return;
                 }
             }
             
             dadosCorretos.push(true);
             novoQuizzUsuario.questions.push(perguntaDepoisDeReceberValorNovo);
+            prosseguirParaNiveis();
         } else {
             dadosCorretos.push(false);
         }
@@ -229,36 +220,6 @@ function validacaoDosDadosDasPerguntas() {
     } */
     
 }
-
-
-
-function checagemRequisitosPerguntas() {
-    prosseguirParaNiveis();
-}
-
-/*function checagemPerguntas() {
-    for(let i = 0; i < qtdPerguntas; i++) {
-        tituloPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(2)`).value;
-        corPergunta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
-        if() {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}*/
-
-/*function checagemRespostaCorreta() {
-    for(let i = 0; i < qtdPerguntas; i++) {
-        respostaCorreta = document.querySelector(`.pergunta${i + 1} .resposta-correta input:nth-child(2)`).value;
-        URLRespostaCorreta = document.querySelector(`.pergunta${i + 1} .numero-pergunta input:nth-child(3)`).value;
-        if(respostaCorreta !== undefined && (URLRespostaCorreta.startsWith('https://') || URLRespostaCorreta.startsWith('http://'))) {
-            prosseguirParaNiveis();
-        } else {
-            alert("Preencha os dados corretamente");
-        }
-    }
-}*/
 
  function prosseguirParaNiveis() {
     pegarClasseConteudoNoHtml.innerHTML = `
